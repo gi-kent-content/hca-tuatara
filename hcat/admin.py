@@ -1,0 +1,184 @@
+
+# Register your models here.
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.contrib import admin
+from .models import *
+
+class ContributorTypeAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "description"]
+    list_display = ["short_name", "description"]
+
+admin.site.register(ContributorType, ContributorTypeAdmin)
+
+class ContributorAdmin(admin.ModelAdmin):
+    list_filter = ['type']
+    autocomplete_fields = ['projects', 'labs', 'grants', 'type']
+    search_fields = ['name', 'type', 'email','city']
+    search_fields = ['name', 'email']
+    list_display = ['name', 'type', 'email','city']
+    list_display = ['name', 'email', 'type', 'city']
+
+admin.site.register(Contributor, ContributorAdmin)
+
+class SoftwareDeveloperAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['who']
+    list_display = ['who', 'favorite_languages']
+
+admin.site.register(SoftwareDeveloper, SoftwareDeveloperAdmin)
+
+class InternAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['who']
+    list_display = ['who', 'advisor', 'interests']
+
+admin.site.register(Intern, InternAdmin)
+
+class WranglerAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['who']
+    list_display = ['who', 'favorite_site']
+
+admin.site.register(Wrangler, WranglerAdmin)
+
+class LabAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['contributors', 'pi', 'grants', 'projects']
+    search_fields = ['short_name', 'pi', ]
+    list_display = ['short_name', 'pi', 'institution',]
+
+admin.site.register(Lab, LabAdmin)
+
+class ProjectStateAdmin(admin.ModelAdmin):
+    list_display = ['state', 'description']
+    
+admin.site.register(ProjectState, ProjectStateAdmin)
+
+class EffortTypeAdmin(admin.ModelAdmin):
+    list_display = ['short_name', 'description']
+    
+admin.site.register(EffortType, EffortTypeAdmin)
+
+class ProjectAdmin(admin.ModelAdmin):
+    search_fields = ['short_name', 'title', 'contributors', 'labs', 'organ_part', 
+    'disease', 'species', 'grants']
+    autocomplete_fields = ["contributors", "labs", 
+    	"organ", "organ_part", "disease", "files",
+    	"species", "sample_type", "assay_type", "assay_tech", "publications", 
+	"grants", "files", "urls", "contacts", "responders"]
+    list_display = ['short_name', 'stars', 'state_reached', 'wrangler1', 'title',]
+    list_filter = ['species', 'effort', 'wrangler1', 'state_reached', 'assay_tech']
+    fieldsets = (
+        ('overall', { 'fields': (('short_name', 'state_reached', ), ('title', 'stars'), ('labs', 'consent'), ('chat_url'))}), 
+	('wrangling',  { 'fields': (
+		('wrangler1', 'wrangler2'), 
+		('cur_state', 'comments'),
+		('effort', 'origin_name',),
+		('contacts', 'files'),
+		('first_contact_date', 'last_contact_date'),
+		'responders',
+		('first_response_date', 'last_response_date'),
+		)}),
+	('submission steps',  { 'fields': (
+		('questionnaire_date', 'questionnaire_comments'),
+		('tAndC_date', 'tAndC_comments'),
+		('sheet_template_date', 'sheet_template', ),
+		('sheet_from_lab_date', 'sheet_from_lab', ),
+		('back_to_lab_date', 'back_to_lab', ),
+                ('lab_review_date', 'lab_review_comments', ),
+		('sheet_validated_date', 'sheet_that_validated', ),
+		('staging_area_date', 'staging_area', ),
+		('submit_date', 'submit_comments', ),
+		)}),
+	('post-submit',  { 'fields': (
+		('cloud_date', 'pipeline_date', 'orange_date'),
+		)}),
+        ('biosample',  { 'fields': (('species', 'sample_type'), ('organ', 'organ_part'), 'disease')}),
+        ('assay', { 'fields': ('assay_type', 'assay_tech', 'cells_expected')}),
+	('pubs, people, and pay', { 'fields': ('description', 'publications', 'contributors', 'grants')}),
+    )
+
+admin.site.register(Project, ProjectAdmin)
+
+class GrantAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["funded_contributors", "funded_projects", "funded_labs", ]
+    search_fields = ["funded_contributors", "funded_projects", "funded_labs"]
+    list_display = ['grant_id', 'funder', 'grant_title',]
+    list_filter = ['funder']
+
+admin.site.register(Grant, GrantAdmin)
+
+class FunderAdmin(admin.ModelAdmin):
+    list_display = ['short_name', 'description',]
+
+admin.site.register(Funder, FunderAdmin)
+
+
+class SpeciesAdmin(admin.ModelAdmin):
+    search_fields = ["common_name", "scientific_name", "ncbi_taxon"]
+    list_display = ['common_name', 'scientific_name', 'ncbi_taxon',]
+
+admin.site.register(Species, SpeciesAdmin)
+
+class ConsentAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "description"]
+    list_display = ["short_name", "description"]
+
+admin.site.register(Consent, ConsentAdmin)
+
+class DiseaseAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "description"]
+    list_display = ["short_name", "description"]
+    autocomplete_fields = ['projects']
+
+admin.site.register(Disease, DiseaseAdmin)
+
+class OrganAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "description", "ontology_id"]
+    list_display = ["short_name", "ontology_id", "description"]
+
+admin.site.register(Organ, OrganAdmin)
+
+class OrganPartAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "description"]
+    list_display = ["short_name", "description"]
+    autocomplete_fields = ['projects']
+
+
+admin.site.register(OrganPart, OrganPartAdmin)
+
+class SampleTypeAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "description"]
+    list_display = ["short_name", "description"]
+
+admin.site.register(SampleType, SampleTypeAdmin)
+
+class AssayTechAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "description"]
+    list_display = ["short_name", "description"]
+    autocomplete_fields = ['projects']
+
+admin.site.register(AssayTech, AssayTechAdmin)
+
+class AssayTypeAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "description"]
+    list_display = ["short_name", "description"]
+    autocomplete_fields = ['projects']
+
+admin.site.register(AssayType, AssayTypeAdmin)
+
+class PublicationAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "title"]
+    list_display = ["short_name", "title"]
+
+admin.site.register(Publication, PublicationAdmin)
+
+class UrlAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "path"]
+    list_display = ["short_name", "path"]
+
+admin.site.register(Url, UrlAdmin)
+
+class FileAdmin(admin.ModelAdmin):
+    search_fields = ["short_name", "file"]
+    list_display = ["short_name", "file"]
+
+admin.site.register(File, FileAdmin)
