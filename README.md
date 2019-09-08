@@ -5,7 +5,7 @@ into HCA.
 Note that we are trying to develop this the tried and true (for us at least) spiral approach to development.
 By this I mean rather than develop a spec that gets sent around and expanded and argued,  we develop a working
 prototype that we gradually add features to in response to requests from people who use the prototype.
-The initial prototype was built after discussions with a half dozen key users.  In spiral development,
+The initial prototype was built after discussions with prospective users.  In spiral development,
 at all points working code is maintained.   The prototype will gradually develop into production code. It is
 not thrown away.  In fact it is already pretty robust. 
 
