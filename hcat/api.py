@@ -5,33 +5,33 @@ import json
 from .models import *
 
 def api_index(request):
-    objects = [Project, ProjectState, Contributor, Tracker, AssayTech, Disease, Organ]
+    objects = [Project, ProjectStatus, Contributor, Tracker, CdnaLibraryPrep, Disease, Organ]
     a = []
     for o in objects:
         p = {"class": o.__name__.lower(), "count": o.objects.count()}
         a.append(p)
     return HttpResponse(json.dumps(a), content_type="application/json")
 
-def serializable_assay_tech(c):
+def serializable_cdna_library_prep(c):
     projects = []
     for p in c.projects.all():
          projects.append(p.short_name)
     return {"short_name": c.short_name, "description": c.description, "projects": projects}
 
-def api_assaytech_list(request):
+def api_cdnalibraryprep_list(request):
     a = []
-    for p in AssayTech.objects.order_by("id"):
-        j = serializable_assay_tech(p)
+    for p in CdnaLibraryPrep.objects.order_by("id"):
+        j = serializable_cdna_library_prep(p)
         a.append(j)
     return HttpResponse(json.dumps(a), content_type="application/json")
 
-def serializable_project_state(p):
-    return {"state": p.state, "description": p.description}
+def serializable_project_status(p):
+    return {"status": p.status, "description": p.description}
 
-def api_projectstate_list(request):
+def api_projectstatus_list(request):
     a = []
-    for p in ProjectState.objects.order_by("id"):
-        j = serializable_project_state(p)
+    for p in ProjectStatus.objects.order_by("id"):
+        j = serializable_project_status(p)
         a.append(j)
     return HttpResponse(json.dumps(a), content_type="application/json")
 
@@ -42,11 +42,7 @@ def serializable_contributor(c):
     labs = []
     for p in c.labs.all():
          labs.append(p.short_name)
-    return {"name": c.name, "type": str(c.type),
-            "email": c.email, "phone": c.phone, "address": c.address,
-            "department": c.department, "institute":c.institute, "city":c.city,
-            "zip_postal_code":c.zip_postal_code, "country":c.country,
-            "projects":projects, "labs":labs}
+    return {"name": c.name, "projects":projects, "labs":labs}
     #projects = models.ManyToManyField("Project", blank=True, through="project_contributors")
     #labs = models.ManyToManyField("Lab", blank=True, through="lab_contributors")
     #grants = models.ManyToManyField("Grant", blank=True, through="grant_funded_contributors")
@@ -115,21 +111,28 @@ def serializable_project(p):
     contributors = []
     for c in p.contributors.all():
         contributors.append(str(c))
+    contacts = []
+    for c in p.contacts.all():
+        contacts.append(str(c))
     organs = []
     for o in p.organ.all():
         organs.append(str(o))
+    sample_type = []
+    for s in p.sample_type.all():
+        sample_type.append(str(s))
     species = []
     for s in p.species.all():
         species.append(str(s))
-    techs = []
-    for t in p.assay_tech.all():
-        techs.append(str(t))
+    preps = []
+    for t in p.cdna_library_prep.all():
+        preps.append(str(t))
     return {
-        "short_name":p.short_name, "stars":p.stars, "state_reached": str(p.state_reached), 
+        "short_name":p.short_name, "stars":p.stars, "status": str(p.status), 
         "origin_name": p.origin_name, "title":p.title, 
-        "wrangler1": str(p.wrangler1), "wrangler2": str(p.wrangler2), 
-        "species":species, "organs":organs, "assay_tech": techs, "contributors":contributors,
-        "description":p.description, "submit_date":str(p.submit_date)}
+        "primary_wrangler": str(p.primary_wrangler), "secondary_wrangler": str(p.secondary_wrangler), "contacts":contacts,
+        "species":species, "organs":organs, "sample_type":sample_type,
+        "cdna_library_prep": preps, "contributors":contributors,
+        "description":p.description, "comments":p.comments, "submit_date":str(p.submit_date)}
     
 def api_project_list(request):
     a = []
