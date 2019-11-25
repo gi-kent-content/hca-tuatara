@@ -1,0 +1,8 @@
+# show which ports are in use when setting HCAT_WEBPORT in virtualenv postactivate
+#[hgwdev:~/hca-tuatara> netstat -tulpn | grep LISTEN | grep '812[0-9]'
+#(Not all processes could be identified, non-owned process info
+# will not be shown, you would have to be root to see it all.)
+#tcp        0      0 0.0.0.0:8123            0.0.0.0:*               LISTEN      -                   
+#tcp        0      0 0.0.0.0:8124            0.0.0.0:*               LISTEN      -                   
+
+python manage.py runserver 0.0.0.0:${HCAT_WEBPORT}
