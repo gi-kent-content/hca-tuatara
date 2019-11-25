@@ -12,6 +12,9 @@ SESSION_COOKIE_SECURE = True
 
 STATIC_ROOT="/home/ec2-user/hca-tuatara/static"
 
-INSTALLED_APPS += 'mod_wsgi.server'
+SECRET_KEY = os.environ["HCAT_SECRET_KEY"]
 
-MEDIA_ROOT = '/home/ec2-user/hca-tuatara/media'
+#INSTALLED_APPS += [
+#    'mod_wsgi.server',
+#]
+

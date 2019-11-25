@@ -20,6 +20,8 @@ Deployments (DEPL) are: dev, test, stage, and prod
 
 #create new
 virtualenv hcat_DEPL
+or 
+mkvirtualenv --python=/path/to/python3 hcat_DEPL
 
 # activate it
 source DEPL/bin/activate
