@@ -10,7 +10,7 @@ ALLOWED_HOSTS = ["tuatara.data.humancellatlas.org", "hgwdev.gi.ucsc.edu", "3.15.
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-STATIC_ROOT="/home/ec2-user/hca-tuatara/static"
+STATIC_ROOT="/home/ec2-user/static"
 
 SECRET_KEY = os.environ["HCAT_SECRET_KEY"]
 
