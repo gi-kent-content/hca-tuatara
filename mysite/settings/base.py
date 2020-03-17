@@ -135,6 +135,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# help it find our static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # this could have called i.e. assets instead
+]
+
 # Where wranglers can upload things, whoohoo!
 
 MEDIA_ROOT = os.environ["HCAT_MEDIA"]
