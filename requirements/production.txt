@@ -1,4 +1,4 @@
-Django==2.1
+Django==2.2.10
 mod-wsgi==4.6.7
 mysqlclient==1.4.4
 pytz==2019.3
