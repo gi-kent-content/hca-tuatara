@@ -17,7 +17,7 @@ def index(request):
 def project_all(request):
     project_list = Project.objects.order_by('short_name')
     project_dict = {'projects': project_list}
-    return render(request, 'hcat_will/projectAll_page.html', context=project_dict)
+    return render(request, 'hcat/projectAll_page.html', context=project_dict)
 
 class ProjectListView(generic.ListView):
     template_name = 'hcat/project_list.html'
