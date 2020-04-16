@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('hcat/', include('hcat.urls')),
     path('api/', include('hcat.api_urls')),
+    path('projectAll/', include('hcat.urls')),
     path('', include('hcat.index_urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
