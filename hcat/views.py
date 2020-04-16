@@ -20,7 +20,7 @@ def project_all(request):
     return render(request, 'hcat/projectAll_page.html', context=project_dict)
 
 def covid_projects(request):
-    covid_list = Project.objects.filter(tags='COVID-19')
+    covid_list = Project.objects.filter(tags__tag__contains="COVID-19")
     covid_dict = {'covid_projects': covid_list}
     return render(request, 'hcat/covid19_page.html', context=covid_dict)
 
