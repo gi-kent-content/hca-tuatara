@@ -19,6 +19,11 @@ def project_all(request):
     project_dict = {'projects': project_list}
     return render(request, 'hcat/projectAll_page.html', context=project_dict)
 
+def covid_projects(request):
+    covid_list = Project.objects.filter(tags='COVID-19')
+    covid_dict = {'covid_projects': covid_list}
+    return render(request, 'hcat/covid19_page.html', context=covid_dict)
+
 class ProjectListView(generic.ListView):
     template_name = 'hcat/project_list.html'
     context_object_name = 'project_list'
