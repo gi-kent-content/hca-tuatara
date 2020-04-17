@@ -45,7 +45,7 @@
                     <td>{{ proj.short_name }}</td>
                     <td>{{ proj.project_source }}</td>
                     <td>{{ proj.status }}</td>
-                    <td>{{ proj.labs }}</td>
+                    <td>{{ proj.labs.all|join:", " }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
