@@ -25,7 +25,11 @@
                     <td>{{ proj.short_name }}</td>
                     <td>{{ proj.project_source }}</td>
                     <td>{{ proj.status }}</td>
-                    <td>{{ proj.labs.all|join:", " }}</td>
+		    {% if proj.labs.all|length > 2 %}
+                    <td data-toggle="popover" data-content="{{ proj.labs.all|join:', ' }}">{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		    {% else %}
+		    <td>{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
