@@ -29,7 +29,8 @@
                 {% for proj in projects %}
                 <tr>
                     <td><input type="checkbox"></td>
-                    <td>{{ proj.short_name }}</td>
+                    <td data-toggle="popover" title="{{ proj.title }}"
+                                data-content="{{ proj.description }}">{{ proj.short_name }}</td>
                     <td>{{ proj.stars }}</td>
                     <td>{{ proj.status }}</td>
                     <td>{{ proj.primary_wrangler }}</td>
