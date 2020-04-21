@@ -35,6 +35,12 @@
 		            <td>{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
 		            {% endif %}
                     <td>{{ proj.project_source }}</td>
+                    <td>{{ proj.status }}</td>
+		            {% if proj.labs.all|length > 2 %}
+                    <td data-html="true" data-toggle="popover" data-content="{{ proj.labs.all|join:",<br />" }}">{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		            {% else %}
+		            <td>{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		            {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
