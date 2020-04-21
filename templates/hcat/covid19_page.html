@@ -14,22 +14,27 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Short Name</th>
-                    <th>Project Source</th>
-                    <th>Status</th>
+                    <th>Species</th>
+                    <th>Disease</th>
+                    <th>Library Prep</th>
                     <th>Labs</th>
+                    <th>Project Source</th>
                 </tr>
             </thead>
             <tbody>
                 {% for proj in covid_projects %}
                 <tr>
                     <td>{{ proj.short_name }}</td>
+                    <td>{{ proj.species.all|join:"<br>" }}</td>
+                    <td>{{ proj.disease.all|join:"<br>" }}</td>
+                    <td>{{ proj.cdna_library_prep.all|join:"<br>" }}</td>
+		            {% if proj.labs.all|length > 2 %}
+                    <td data-toggle="popover" data-content="{{ proj.labs.all|join:', ' }}">
+                        {{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		            {% else %}
+		            <td>{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		            {% endif %}
                     <td>{{ proj.project_source }}</td>
-                    <td>{{ proj.status }}</td>
-		    {% if proj.labs.all|length > 2 %}
-                    <td data-toggle="popover" data-content="{{ proj.labs.all|join:', ' }}">{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
-		    {% else %}
-		    <td>{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
-		    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
