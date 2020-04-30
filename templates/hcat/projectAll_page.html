@@ -8,17 +8,17 @@
 </head>
 <body>{% block body %}
     <div class="container project_test mt-5">
-        <div class="input-group mb-3" style="width: 400px;">
-            <input type="text" placeholder="Search..." class="form-control">
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-            </div>
-        </div>
+<!--        <div class="input-group mb-3" style="width: 400px;">-->
+<!--            <input type="text" placeholder="Search..." class="form-control">-->
+<!--            <div class="input-group-append">-->
+<!--                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>-->
+<!--            </div>-->
+<!--        </div>-->
         {% if projects %}
         <table class="table table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <th></th>
+<!--                    <th></th>-->
                     <th>Short Name</th>
                     <th>Stars</th>
                     <th>Status</th>
@@ -28,7 +28,7 @@
             <tbody>
                 {% for proj in projects %}
                 <tr>
-                    <td><input type="checkbox"></td>
+<!--                    <td><input type="checkbox"></td>-->
                     <td data-toggle="popover" title="{{ proj.title }}"
                                 data-content="{{ proj.description|truncatewords:100 }}">{{ proj.short_name|truncatechars:50 }}</td>
                     <td>{{ proj.stars }}</td>
@@ -43,17 +43,17 @@
         {% endif %}
 
         <!-- Will need to build out javascript for finding pages and when to activate and disable navigation-->
-        <nav aria-label="Project list navigation"> <!--This is a description-->
-          <ul class="pagination justify-content-end"> <!--This sets navigation placement-->
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
-            </li>
-          </ul>
-        </nav>
+<!--        <nav aria-label="Project list navigation"> &lt;!&ndash;This is a description&ndash;&gt;-->
+<!--          <ul class="pagination justify-content-end"> &lt;!&ndash;This sets navigation placement&ndash;&gt;-->
+<!--            <li class="page-item disabled">-->
+<!--              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>-->
+<!--            </li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--            <li class="page-item">-->
+<!--              <a class="page-link" href="#">Next</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </nav>-->
     </div>
 {% endblock body %}
 </body>
