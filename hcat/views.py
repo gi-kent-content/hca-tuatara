@@ -10,7 +10,7 @@ from .models import *
 # Create your views here (except API views go in api.py)
 
 def index(request):
-    template = loader.get_template('hcat/index.html')
+    template = loader.get_template('hcat/home_page.html')
     context = {}
     return HttpResponse(template.render(context,request))
 
