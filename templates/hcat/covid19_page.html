@@ -24,7 +24,9 @@
             <tbody>
                 {% for proj in covid_projects %}
                 <tr>
-                    <td>{{ proj.short_name }}</td>
+                    <td data-toggle="popover" title="{{ proj.title }}"
+                                data-content="{{ proj.description|truncatewords:100 }}">
+                        {{ proj.short_name|truncatechars:50 }}</td>
                     <td>{{ proj.species.all|join:"<br>" }}</td>
                     <td>{{ proj.disease.all|join:"<br>" }}</td>
                     <td>{{ proj.cdna_library_prep.all|join:"<br>" }}</td>
