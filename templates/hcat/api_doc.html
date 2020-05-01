@@ -14,7 +14,7 @@
             <ul>
                 <li><a href="{% url 'api:api_index' %}">/api</a> - lists all classes and the number of objects in each class
                 <li><a href="{% url 'api:api_project_list' %}">/api/project</a> - lists information on all projects
-                <li><a href="{% url 'api:api_project_detail' HumanInnateLymphoidCells %}">/api/project/[project short name]</a> - list info on project with short name
+                <li><a href="{% url 'api:api_project_detail' short_name='HumanInnateLymphoidCells' %}">/api/project/[project short name]</a> - list info on project with short name
                 <li><a href="{% url 'api:api_projectstatus_list' %}">/api/projectstatus</a> - List and describe values in project.status field
                 <li><a href="{% url 'api:api_contributor_list' %}">/api/contributor</a> - List contributors to any project
                 <li><a href="{% url 'api:api_tracker_list' %}">/api/tracker</a> - Post-submission tracking of project
