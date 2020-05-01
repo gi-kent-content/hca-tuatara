@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends "hcat/base_site.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>{% block body %}
+    <div class="container mt-5">
+        <div class="jumbotron">
+          <h2 class="text-primary" style="margin-bottom: 20px;border-bottom: 1px solid #cccccc">API</h2>
+            <p>A REST-ful API allows one to query for current status of projects. Combined with the tracker.data.humancellatlas.org API, a full dashboard can be built to show all data known and in progress. Not all data is available through the API due to GDPR constraints, but enough data to make informed decisions based on known projects is available.  Here's a list of the restful urls supported by the API:</p>
+            <ul>
+                <li><a href="api">https://tuatara.data.humancellatlas.org/api</a> - lists all classes and the number of objects in each class
+                <li><a href="api/project">https://tuatara.data.humancellatlas.org/api/project</a> - lists information on all projects
+                <li><a href="api/project/HumanInnateLymphoidCells">https://tuatara.data.humancellatlas.org/api/project/[project short name]</a> - list info on project with short name
+                <li><a href="api/projectstatus">https://tuatara.data.humancellatlas.org/api/projectstatus</a> - List and describe values in project.status field
+                <li><a href="api/contributor">https://tuatara.data.humancellatlas.org/api/contributor</a> - List contributors to any project
+                <li><a href="api/tracker">https://tuatara.data.humancellatlas.org/api/tracker</a> - Post-submission tracking of project
+                <li><a href="api/cdnalibraryprep">https://tuatara.data.humancellatlas.org/api/cdnalibraryprep</a> - Types of single cell RNA sequencing assay
+                <li><a href="api/disease">https://tuatara.data.humancellatlas.org/api/disease</a> - Diseases currently in any project.
+                <li><a href="api/organ">https://tuatara.data.humancellatlas.org/api/organ</a> - Organs currently used in any project.
+            </ul>
+        </div>
+    </div>
+{% endblock body %}
+</body>
+</html>
