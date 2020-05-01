@@ -5,6 +5,7 @@ from . import api
 app_name = 'api'
 urlpatterns = [
     path('', api.api_index, name='api_index'),
+    path('doc/', api.api_doc, name='api_doc'),
     path('project', api.api_project_list, name='api_project_list'),
     path('project/', api.api_project_list, name='api_project_list'),
     path('project/<str:short_name>', api.api_project_detail, name='api_project_detail'),

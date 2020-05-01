@@ -14,9 +14,6 @@ def index(request):
     context = {}
     return HttpResponse(template.render(context,request))
 
-def api_doc(request):
-    return render(request, 'hcat/api_doc.html')
-
 def project_all(request):
     project_list = Project.objects.order_by('short_name')
     project_dict = {'projects': project_list}
