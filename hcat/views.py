@@ -24,15 +24,20 @@ def covid_projects(request):
     covid_dict = {'covid_projects': covid_list}
     return render(request, 'hcat/covid19_page.html', context=covid_dict)
 
-class ProjectListView(generic.ListView):
-    template_name = 'hcat/project_list.html'
-    context_object_name = 'project_list'
+def projectdetail(request, name_id):
+    project_details = Project.objects.get(short_name=name_id)
+    detail_dict = {'project': project_details}
+    return render(request, 'hcat/project_detail.html', context=detail_dict)
 
-    def get_queryset(self):
-        return Project.objects.order_by("-id")[:100]
-    
-class ProjectDetailView(generic.DetailView):
-    model=Project
-    template_name = 'hcat/project_detail.html'
-    context_object_name = 'project'
+# class ProjectListView(generic.ListView):
+#     template_name = 'hcat/project_list.html'
+#     context_object_name = 'project_list'
+#
+#     def get_queryset(self):
+#         return Project.objects.order_by("-id")[:100]
+#
+# class ProjectDetailView(generic.DetailView):
+#     model=Project
+#     template_name = 'hcat/project_detail.html'
+#     context_object_name = 'project'
 
