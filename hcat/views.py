@@ -3,6 +3,7 @@ from django.shortcuts import render,get_object_or_404
 from django.urls import reverse
 from django.views import generic
 from django.http import HttpResponse
+from urllib.parse import unquote
 import json
 
 from .models import *
@@ -25,7 +26,7 @@ def covid_projects(request):
     return render(request, 'hcat/covid19_page.html', context=covid_dict)
 
 def projectdetail(request, name_id):
-    project_details = Project.objects.get(short_name=name_id)
+    project_details = Project.objects.get(short_name=unquote(name_id))
     detail_dict = {'project': project_details}
     return render(request, 'hcat/project_detail.html', context=detail_dict)
 

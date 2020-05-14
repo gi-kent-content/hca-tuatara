@@ -31,7 +31,7 @@
 <!--                    <td><input type="checkbox"></td>-->
                     <td data-toggle="popover" title="{{ proj.title }}"
                                 data-content="{{ proj.description|truncatewords:100 }}">
-                        <a href="{% url 'hcat:project_detail' proj.short_name %}">{{ proj.short_name|truncatechars:50 }}</a></td>
+                        <a href="{% url 'hcat:project_detail' proj.short_name|urlencode:'' %}">{{ proj.short_name|truncatechars:50 }}</a></td>
                     <td>{{ proj.stars }}</td>
                     <td>{{ proj.status }}</td>
                     <td>{{ proj.primary_wrangler }}</td>
