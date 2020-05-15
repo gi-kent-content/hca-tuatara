@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "hcat/base_site.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>{% block body %}
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-lg-5">
+                    <img src="{% static 'tuatu_smaller_blue.png' %}">
+                </div>
+
+                <div class="col-lg-7" style="font-size: 1.25em; margin-top: 30px">
+                  <h2 class="text-primary" style="margin-bottom: 20px;border-bottom: 1px solid #cccccc">
+		    Tuatara: Project Data Tracking</h2>
+
+        		    <!--<h3 class="text-primary" style="border-bottom: 1px solid #cccccc">About</h3>-->
+                    <p>Tuatara is a database to keep track of projects that the HCA is
+                    integrating or interested in integrating into the Atlas.  It can answer data
+                    roadmap questions like "<span class="gray-medium">What is the current status of single nuclei-seq? I'd like to know when we can expect it so I can prioritize pipeline development, and from who so I can read papers from the labs.</span>"
+                    Tuatara is built on top of Python, Django, and a relational database that we hope will replace several spreadsheets.</p>
+                </div>
+            </div>
+        </div>
+		<h3 class="text-primary" style="border-bottom: 1px solid #cccccc">Access</h3>
+        <p>If you are interested in tracking data with Tuatara through a <a href="admin">prototypical web interface</a>, please email clayfischer@ucsc.edu.  We will be rolling out broader access as we iterate through feedback.</p>
+    </div>
+{% endblock body %}
+</body>
+</html>

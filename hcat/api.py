@@ -1,5 +1,6 @@
 
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 import json
 from .models import *
@@ -11,6 +12,9 @@ def api_index(request):
         p = {"class": o.__name__.lower(), "count": o.objects.count()}
         a.append(p)
     return HttpResponse(json.dumps(a), content_type="application/json")
+
+def api_doc(request):
+    return render(request, 'hcat/api_doc.html')
 
 def serializable_cdna_library_prep(c):
     projects = []

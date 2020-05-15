@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends "hcat/base_site.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProjectAll</title>
+</head>
+<body>{% block body %}
+    <div class="container project_test mt-5">
+<!--        <div class="input-group mb-3" style="width: 400px;">-->
+<!--            <input type="text" placeholder="Search..." class="form-control">-->
+<!--            <div class="input-group-append">-->
+<!--                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>-->
+<!--            </div>-->
+<!--        </div>-->
+        {% if projects %}
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+<!--                    <th></th>-->
+                    <th>Short Name</th>
+                    <th>Stars</th>
+                    <th>Status</th>
+                    <th>Primary Wrangler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proj in projects %}
+                <tr>
+<!--                    <td><input type="checkbox"></td>-->
+                    <td data-toggle="popover" title="{{ proj.title }}"
+                                data-content="{{ proj.description|truncatewords:100 }}">
+                        <a href="{% url 'hcat:project_detail' proj.short_name|urlencode:'' %}">{{ proj.short_name|truncatechars:50 }}</a></td>
+                    <td>{{ proj.stars }}</td>
+                    <td>{{ proj.status }}</td>
+                    <td>{{ proj.primary_wrangler }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No projects found...</p>
+        {% endif %}
+
+        <!-- Will need to build out javascript for finding pages and when to activate and disable navigation-->
+<!--        <nav aria-label="Project list navigation"> &lt;!&ndash;This is a description&ndash;&gt;-->
+<!--          <ul class="pagination justify-content-end"> &lt;!&ndash;This sets navigation placement&ndash;&gt;-->
+<!--            <li class="page-item disabled">-->
+<!--              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>-->
+<!--            </li>-->
+<!--            <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--            <li class="page-item">-->
+<!--              <a class="page-link" href="#">Next</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </nav>-->
+    </div>
+{% endblock body %}
+</body>
+</html>

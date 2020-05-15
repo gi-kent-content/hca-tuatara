@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends "hcat/base_site.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid 19</title>
+
+</head>
+<body>{% block body %}
+    <div class="container project_test mt-5">
+        {% if covid_projects %}
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Short Name</th>
+                    <th>Species</th>
+                    <th>Disease</th>
+                    <th>Library Prep</th>
+                    <th>Labs</th>
+                    <th>Project Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proj in covid_projects %}
+                <tr>
+                    <td data-toggle="popover" title="{{ proj.title }}"
+                                data-content="{{ proj.description|truncatewords:100 }}">
+                        <a href="{% url 'hcat:project_detail' proj.short_name|urlencode:'' %}">
+                            {{ proj.short_name|truncatechars:50 }}</a></td>
+                    <td>{{ proj.species.all|join:"<br>" }}</td>
+                    <td>{{ proj.disease.all|join:"<br>" }}</td>
+                    <td>{{ proj.cdna_library_prep.all|join:"<br>" }}</td>
+		    {% if proj.labs.all|length > 2 %}
+                    <td data-toggle="popover" data-html="true" data-content="{{ proj.labs.all|join:"<br />" }}">
+                        {{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		    {% else %}
+		    <td>{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		    {% endif %}
+                    <td>{{ proj.project_source }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No projects found...</p>
+        {% endif %}
+    </div>
+{% endblock body %}
+</body>
+</html>

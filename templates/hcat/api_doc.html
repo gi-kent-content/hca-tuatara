@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends "hcat/base_site.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>{% block body %}
+    <div class="container mt-5">
+        <div class="jumbotron">
+          <h2 class="text-primary" style="margin-bottom: 20px;border-bottom: 1px solid #cccccc">API</h2>
+            <p>A REST-ful API allows one to query for current status of projects. Combined with the tracker.data.humancellatlas.org API, a full dashboard can be built to show all data known and in progress. Not all data is available through the API due to GDPR constraints, but enough data to make informed decisions based on known projects is available.  Here's a list of the restful urls supported by the API:</p>
+            <ul>
+                <li><a href="{% url 'api:api_index' %}">/api</a> - lists all classes and the number of objects in each class
+                <li><a href="{% url 'api:api_project_list' %}">/api/project</a> - lists information on all projects
+                <li><a href="{% url 'api:api_project_detail' short_name='HumanInnateLymphoidCells' %}">/api/project/[project short name]</a> - list info on project with short name
+                <li><a href="{% url 'api:api_projectstatus_list' %}">/api/projectstatus</a> - List and describe values in project.status field
+                <li><a href="{% url 'api:api_contributor_list' %}">/api/contributor</a> - List contributors to any project
+                <li><a href="{% url 'api:api_tracker_list' %}">/api/tracker</a> - Post-submission tracking of project
+                <li><a href="{% url 'api:api_cdnalibraryprep_list' %}">/api/cdnalibraryprep</a> - Types of single cell RNA sequencing assay
+                <li><a href="{% url 'api:api_disease_list' %}">/api/disease</a> - Diseases currently in any project.
+                <li><a href="{% url 'api:api_organ_list' %}">/api/organ</a> - Organs currently used in any project.
+            </ul>
+        </div>
+    </div>
+{% endblock body %}
+</body>
+</html>
