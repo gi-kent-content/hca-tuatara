@@ -49,7 +49,7 @@ def project_suggestion(request):
             return index(request)
         else:
             print('Error in form')
-    return render(request, 'hcat_will/suggestion_form.html', {'form': form})
+    return render(request, 'hcat/project_suggestion_form.html', {'form': form})
 
 # class ProjectListView(generic.ListView):
 #     template_name = 'hcat/project_list.html'
