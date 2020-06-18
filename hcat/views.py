@@ -33,7 +33,7 @@ def project_all(request):
     return render(request, 'hcat/projectAll_page.html', {'projects': projects})
 
 def covid_projects(request):
-    covid_list = Project.objects.filter(tags__tag__contains="COVID-19")
+    covid_list = Project.objects.filter(tags__tag__contains="COVID-19").order_by('short_name')
     page = request.GET.get('page', 1)
     paginator = Paginator(covid_list, 15)
 
