@@ -1,5 +1,6 @@
 from django.template import loader
 from django.shortcuts import render,get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from django.views import generic
 from django.http import HttpResponse
@@ -19,13 +20,31 @@ def index(request):
 
 def project_all(request):
     project_list = Project.objects.order_by('short_name')
-    project_dict = {'projects': project_list}
-    return render(request, 'hcat/projectAll_page.html', context=project_dict)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(project_list, 15)
+
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        projects = paginator.page(1)
+    except EmptyPage:
+        projects = paginator.page(paginator.num_pages)
+
+    return render(request, 'hcat/projectAll_page.html', {'projects': projects})
 
 def covid_projects(request):
     covid_list = Project.objects.filter(tags__tag__contains="COVID-19")
-    covid_dict = {'covid_projects': covid_list}
-    return render(request, 'hcat/covid19_page.html', context=covid_dict)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(covid_list, 15)
+
+    try:
+        covid_projs = paginator.page(page)
+    except PageNotAnInteger:
+        covid_projs = paginator.page(1)
+    except EmptyPage:
+        covid_projs = paginator.page(paginator.num_pages)
+
+    return render(request, 'hcat/covid19_page.html', {'covid_projects': covid_projs})
 
 def projectdetail(request, name_id):
     project_details = Project.objects.get(short_name=unquote(name_id))
