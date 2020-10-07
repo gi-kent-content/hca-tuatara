@@ -24,6 +24,7 @@ urlpatterns = [
     path('hcat/', include('hcat.urls')),
     path('api/', include('hcat.api_urls')),
     path('', include('hcat.index_urls')),
+    path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
