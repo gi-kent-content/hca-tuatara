@@ -39,16 +39,11 @@
                             aria-expanded="false">Dashboards</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'hcat:project_all_list' %}">All Projects</a>
-                        <a class="dropdown-item" href="#">COVID-19</a>
-                        <a class="dropdown-item" href="#">Genome Browser</a>
-                        <a class="dropdown-item" href="#">Cell Browser</a>
+                        <a class="dropdown-item" href="{% url 'hcat:covid_project_list' %}">COVID-19</a>
                     </div>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'suggest' %}">Suggest Project</a>
-                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
