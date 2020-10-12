@@ -25,6 +25,11 @@ def covid_projects(request):
     covid_dict = {'covid_projects': covid_list}
     return render(request, 'hcat/covid19_page.html', context=covid_dict)
 
+def genome_browser_projects(request):
+    gbrowser_list = Project.objects.filter(tags__tag__contains="genome browser")
+    gbrowser_dict = {'gbrowser_projects': gbrowser_list}
+    return render(request, 'hcat/gbrowser_page.html', context=gbrowser_dict)
+
 def projectdetail(request, name_id):
     project_details = Project.objects.get(short_name=unquote(name_id))
     detail_dict = {'project': project_details}
