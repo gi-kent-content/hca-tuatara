@@ -15,13 +15,13 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=120, unique=True)),
-                ('submitter_name', models.CharField(max_length=255, unique=True)),
+                ('submitter_name', models.CharField(max_length=255)),
                 ('ip_address', models.GenericIPAddressField(blank=True, null=True)),
-                ('links', models.URLField()),
+                ('links', models.TextField()),
                 ('summary', models.TextField()),
             ],
             options={
-                'verbose_name': 'x suggested_project',
+                'verbose_name': 'Suggested Project',
             },
         ),
     ]
