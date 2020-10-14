@@ -2,7 +2,7 @@ from django.template import loader
 from django.shortcuts import render,get_object_or_404
 from django.urls import reverse
 from django.views import generic
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from urllib.parse import unquote
 from .models import Project, SuggestedProjects
 from .suggestion_form import ProjectSuggestion
@@ -46,7 +46,7 @@ def project_suggestion(request):
             project = SuggestedProjects(title=title, submitter_name=sname, links=links,
                                         summary=summary, ip_address=request.META['REMOTE_ADDR'])
             project.save()
-            return index(request)
+            return HttpResponseRedirect('/')
         else:
             print('Error in form')
     return render(request, 'hcat/project_suggestion_form.html', {'form': form})
