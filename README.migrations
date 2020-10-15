@@ -1,0 +1,184 @@
+
+Django Migrations - NOTES, IDEAS, APPROACHES:
+
+Django Migrations are a way to handle changes to the Python Model or Database.
+They can operate largely automatically, doing the heavy lifting.
+
+They are created with makemigrations command, applied with the migrate command.
+The are shown with the showmigrations command. 
+
+Transaction Limitations with MySQL.
+Mysql has innodb, which we are using, and that has basic transaction capability 
+with safety and logging and backups-do-able-online, meaning you do not have
+to take down the server to do them.  That is all useful and good.
+
+But since mysql cannot handle changes to database structure inside innodb transactions,
+there is no protection against failures.  And since Django has no tools for
+detecting or correcting errors to the database, the only safe thing to do
+is, for the production server, to ALWAYS do a database backup before any 
+migrate commands are run.
+
+The showmigrations command shows which migrations exist, and which have been applied.
+That status information is tracked in the django_migrations table, which is pretty simple.
+If there is a migration that has not been applied (or performed), you should 
+do it right away (after backup on production).
+
+The system of django and migrations is really representing 3 objects.
+1. The current app model in python representing your regular code.
+When you make changes to it, they can be detected.
+2. The current migrations, made by applying them all in memory.
+3. The database.
+
+The detection is performed when makemigrations, as follows:
+It reads the current migrations, say from 0001_initial all the 
+way up to the current migration, currently at 0022.
+After comparing the model made from the migrations to the model from latest code,
+it can create a new migration which has the changes you need to bring your system up-to-date.
+This will create a new migration in for instance hcat/migrations/.
+You will be able to see it with the showmigrations command.
+You will still need to migrate it and git add it.
+
+Note that the django system has no way to detect when the database is NO LONGER in sync
+with the migration state. But if you are careful, it will remain in-sync.
+
+The PLAN:
+
+Staging and production tuatara machines will only do git pull and migrate commands.
+NEVER do makemigrations on them.  The developer has a simple script that can clone
+the production db and media files into their own instance (restoreFromProd.sh).
+
+The developer, working on their own branch, make changes to the model,
+and then should immediately after run makemigrations, and migrate
+to apply them, and the git add hcat/migrations/00<newmigrationpath>
+and commit so that they are not lost and can be used for migrating staging and production,
+and even by other code reviewers.
+
+The only little exception to this is that it is OK on staging or production
+to run makemigrations with --dry-run. It should always say that there is nothing to make,
+and thus we know that the current model is in sync with the migration set.
+
+So production update should be:
+ssh ec2
+# shut off apache
+sudo service httpd stop
+cd hca-tuatara-repo
+git pull
+manage.py showmigrations
+# BACKUP THE DB
+mysqldump -u root --databases hcat > hcat.backup<current-date>.sql
+manage.py migrate hcat
+# confirm it was applied
+manage.py showmigrations
+# if even a small thing goes wrong, restore the db from the backup you just made.
+# run makemigrations with dryrun to show the current code matches the migrations created by the developer
+# and so there is nothing to do:
+manage.py makemigrations hcat --dry-run
+# do not forget dry run, that is critical.
+# it should say there is nothing to do.
+# If there is anyting found, the the code and db do not match,
+# so restore the db from backup, and complain to the developer.
+# did they forget to check-in a migration?
+# restart apache
+sudo service httpd start
+
+Since it should have already been tested well by developer and QA and run on staging,
+it should not have any surprises.
+
+
+SQLMIGRATE
+Showing the migration as SQL equivalent:
+The sqlmigrate command might seem a bit odd, because it sounds like
+it might actually do something dangerous with sql.
+BUT all it really does is show you the SQL that will or would be applied when run.
+ manage.py sqlmigrate hcat 0021_somthing  # do not put .py at the end of the migration name.
+In fact, for some complicated cases I will not go into in detail here,
+the solution is to take the SQL output from the sqlmigrate command and save it for use.
+
+UN-DOING MIGRATION?
+Although migrations are meant to be sort of reversible, so that you can restore to a previous-migration,
+it does not deal with crashes and errors during migration, so thus we 
+need backups before production migration.
+
+--name
+You can use --name somename with makemigrate to specify the specific name that you really want.
+If you do not do this, it comes up with some automatic name, which might or might not be satisfactory.
+
+
+RESETTING MIGRATIONS
+Although I do know how this can be done,
+and how to do it as safely as possible,
+there is no actual need to do it, so I will not be elaborating further.
+Just create and add to git your migrations, and follow the rules above,
+and all will be well.
+
+
+--fake-initial
+This is intended to be used with the database when you already have the db
+but django does not know it.  Although this can work, it absolutely could
+fail if the user is not extremely careful that the code and migrations are
+all up-to-date and applied first. It is too easy for things to drift apart.
+Instead of using this, we plan to just clone the entire db, migrations and
+all from production whenever we need to restore the state for developers or testers.
+So this creates the initial tables that django would otherwise think have not been created yet.
+There is no need to use this command for us and we should not have it as
+part of the developement, testing, production workflow.
+
+--fake works like --fake-initial, but for non-initial tables.  We do not need
+or want to use it.
+
+All the fake really does is update that django_migrations table by adding
+a row to the system telling it that the migration was applied,
+but in fact nothing was really applied, the database was not correctly fixed,
+and we do not know what state the database is in.
+
+
+
+COMPARE? - HOW TO DETECT MIGRATION STATE, AND WHETHER IT MATCHES YOUR DATABASE, 
+SINCE DJANGO CANNOT HELP.
+This is a bit of a pain to do, but could be worth it if we have good reason to think 
+the database got out of sync with the migrations:
+
+One strategy for detecting difference between the database and the migrations can 
+be done with a bit of work. You basically create a temp db, set $HCAT_DB env var to point to it,
+then you run migrate command, and it creates tables and indexes in the empty db.
+Then using tools like mysqldump you can get a picture of just the structure.
+ hgsqldump --skip-add-drop-table --skip-lock-tables --no-data --order-by-primary --databases hcatGalt > hcatGalt.dump
+ hgsqldump --skip-add-drop-table --skip-lock-tables --no-data --order-by-primary --databases hcatGaltTemp > hcatGaltTemp.dump
+ diff hcatGalt.dump hcatGaltTemp.dump
+Also I was able to tweak and extend dbSnooop a little:
+
+ dbSnoop -justSchema -sortAlpha hcatGalt hcatGalt.dbSnoop
+ dbSnoop -justSchema -sortAlpha hcatGaltTemp hcatGaltTemp.dbSnoop
+ diff hcatGalt.dbSnoop hcatGaltTemp.dbSnoop
+
+-sortAlpha is an extenion to dbSnoop that I made so that it lists the fields in alphabetical order
+rather than the actual order, to ease comparing the structures of the same table in different databases.
+
+In Django, the database can easily have a different field order,
+based on whether changes were applied stepwise or all-at-once, so
+the particular order depends on the actual history taken.
+Luckily the order of the fields in a table does not affect Django apps,
+ hgsqldump --skip-add-drop-table --skip-lock-tables --no-data --order-by-primary --databases hcatGalt > hcatGalt.dump
+nor most SQL systems. But it creates an additional hurdle for some software
+when you are trying to compare your db structure to the one created directly
+from migrations in the empty db.
+
+
+POSTGRES:
+This is probably the preferred database system to use with Django.
+It does have support for db structure changes to happen inside a transaction,
+and there are some detailed blogs that list even fancier ways to control
+where in the migration the transaction starts and ends (which are ignored by mysql).
+
+So, at first we were thinking that we might want to use it with our new Tuatara production
+machine.
+
+However, I am a little worried that we might run into problems since the tools we know how to 
+use, like hgsql or hgsqldump or dbSnoop only work with mysql, and if we tried to use postgres,
+we would not have these.
+
+Finally, we would need to also install postgres on hgwdev, and I do not think that our need
+is really great enough to justify the hassle. 
+
+Instead, we can just be super careful about always backing up the production db before running
+ANY migrate command.

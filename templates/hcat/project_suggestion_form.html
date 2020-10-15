@@ -16,6 +16,7 @@
                 <div class="control-group">
                     <label class="control-label"><strong>{{ field.label }}:</strong></label>
                     <div class="controls">{{ field }}</div>
+                    {{ field.errors }}
                 </div>
                 {% endif %}
                 {% endfor %}
