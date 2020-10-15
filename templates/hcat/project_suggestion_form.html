@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends "hcat/base_site.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Suggest a Project</title>
+</head>
+<body>{% block body %}
+    <div class="container">
+        <div class="jumbotron mt-5">
+            <h2 class="mb-4"><strong>Suggest a Project Below:</strong></h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                {% if field.label != 'Ip address' %}
+                <div class="control-group">
+                    <label class="control-label"><strong>{{ field.label }}:</strong></label>
+                    <div class="controls">{{ field }}</div>
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+                {% endfor %}
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </form>
+        </div>
+    </div>
+{% endblock body %}
+</body>
+</html>
