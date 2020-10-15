@@ -219,3 +219,11 @@ class FileAdmin(admin.ModelAdmin):
     list_display = ["short_name", "file"]
 
 admin.site.register(File, FileAdmin)
+
+
+class SuggestedProjectsAdmin(admin.ModelAdmin):
+    search_fields = ["title", "submitter_name"]
+    list_display = ["title", "submitter_name", "links"]
+
+
+admin.site.register(SuggestedProjects, SuggestedProjectsAdmin)
