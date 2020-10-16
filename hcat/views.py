@@ -1,5 +1,6 @@
 from django.template import loader
 from django.shortcuts import render,get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from django.views import generic
 from django.http import HttpResponse, HttpResponseRedirect
@@ -28,9 +29,18 @@ def covid_projects(request):
     return render(request, 'hcat/covid19_page.html', context=covid_dict)
 
 def genome_browser_projects(request):
-    gbrowser_list = Project.objects.filter(tags__tag__contains="genome browser")
-    gbrowser_dict = {'gbrowser_projects': gbrowser_list}
-    return render(request, 'hcat/gbrowser_page.html', context=gbrowser_dict)
+    gbrowser_list = Project.objects.filter(tags__tag__contains="genome browser").order_by('short_name')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(gbrowser_list, 15)
+
+    try:
+        gbrowser_projs = paginator.page(page)
+    except PageNotAnInteger:
+        gbrowser_projs = paginator.page(1)
+    except EmptyPage:
+        gbrowser_projs = paginator.page(paginator.num_pages)
+
+    return render(request, 'hcat/gbrowser_page.html', context={'gbrowser_projects': gbrowser_projs})
 
 def projectdetail(request, name_id):
     project_details = Project.objects.get(short_name=unquote(name_id))
