@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% extends "hcat/base_site.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Genome Browser</title>
+
+</head>
+<body>{% block body %}
+    <div class="container project_test mt-5">
+        {% if gbrowser_projects %}
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Short Name</th>
+                    <th>Species</th>
+                    <th>Disease</th>
+                    <th>Library Prep</th>
+                    <th>Labs</th>
+                    <th>Project Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proj in gbrowser_projects %}
+                <tr>
+                    <td data-toggle="popover" title="{{ proj.title }}"
+                                data-content="{{ proj.description|truncatewords:100 }}">
+                        <a href="{% url 'hcat:project_detail' proj.short_name|urlencode:'' %}">
+                            {{ proj.short_name|truncatechars:50 }}</a></td>
+                    <td>{{ proj.species.all|join:"<br>" }}</td>
+                    <td>{{ proj.disease.all|join:"<br>" }}</td>
+                    <td>{{ proj.cdna_library_prep.all|join:"<br>" }}</td>
+		    {% if proj.labs.all|length > 2 %}
+                    <td data-toggle="popover" data-html="true" data-content="{{ proj.labs.all|join:"<br />" }}">
+                        {{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		    {% else %}
+		    <td>{{ proj.labs.all|slice:":2"|join:"<br>" }}</td>
+		    {% endif %}
+                    <td>{{ proj.project_source }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No projects found...</p>
+        {% endif %}
+
+        {% if gbrowser_projects.has_other_pages %}
+        <nav>
+          <ul class="pagination justify-content-end">
+            {% if gbrowser_projects.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ gbrowser_projects.previous_page_number }}">Previous</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                  <a class="page-link">Previous</a>
+              </li>
+            {% endif %}
+            {% for i in gbrowser_projects.paginator.page_range %}
+              {% if gbrowser_projects.number == i %}
+                <li class="page-item active">
+                    <a class="page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            {% if gbrowser_projects.has_next %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ gbrowser_projects.next_page_number }}">Next</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                  <a class="page-link">Next</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+    </div>
+{% endblock body %}
+</body>
+</html>
