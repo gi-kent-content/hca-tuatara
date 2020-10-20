@@ -47,6 +47,19 @@ def projectdetail(request, name_id):
     detail_dict = {'project': project_details}
     return render(request, 'hcat/project_detail.html', context=detail_dict)
 
+def cell_browser_projects(request):
+    cbrowser_list = Project.objects.filter(tags__tag__contains="cell browser").order_by('short_name')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(cbrowser_list, 15)
+
+    try:
+        cbrowser_projs = paginator.page(page)
+    except PageNotAnInteger:
+        cbrowser_projs = paginator.page(1)
+    except EmptyPage:
+        cbrowser_projs = paginator.page(paginator.num_pages)
+
+    return render(request, 'hcat/cbrowser_page.html', context={'cbrowser_projects': cbrowser_projs})
 
 def project_suggestion(request):
     form = ProjectSuggestion()
