@@ -4,12 +4,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Covid 19</title>
+    <title>Genome Browser</title>
 
 </head>
 <body>{% block body %}
     <div class="container project_test mt-5">
-        {% if covid_projects %}
+        {% if gbrowser_projects %}
         <table class="table table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for proj in covid_projects %}
+                {% for proj in gbrowser_projects %}
                 <tr>
                     <td data-toggle="popover" title="{{ proj.title }}"
                                 data-content="{{ proj.description|truncatewords:100 }}">
@@ -46,20 +46,20 @@
             <p>No projects found...</p>
         {% endif %}
 
-        {% if covid_projects.has_other_pages %}
+        {% if gbrowser_projects.has_other_pages %}
         <nav>
           <ul class="pagination justify-content-end">
-            {% if covid_projects.has_previous %}
+            {% if gbrowser_projects.has_previous %}
               <li class="page-item">
-                  <a class="page-link" href="?page={{ covid_projects.previous_page_number }}">Previous</a>
+                  <a class="page-link" href="?page={{ gbrowser_projects.previous_page_number }}">Previous</a>
               </li>
             {% else %}
               <li class="page-item disabled">
                   <a class="page-link">Previous</a>
               </li>
             {% endif %}
-            {% for i in covid_projects.paginator.page_range %}
-              {% if covid_projects.number == i %}
+            {% for i in gbrowser_projects.paginator.page_range %}
+              {% if gbrowser_projects.number == i %}
                 <li class="page-item active">
                     <a class="page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></a>
                 </li>
@@ -69,9 +69,9 @@
                 </li>
               {% endif %}
             {% endfor %}
-            {% if covid_projects.has_next %}
+            {% if gbrowser_projects.has_next %}
               <li class="page-item">
-                  <a class="page-link" href="?page={{ covid_projects.next_page_number }}">Next</a>
+                  <a class="page-link" href="?page={{ gbrowser_projects.next_page_number }}">Next</a>
               </li>
             {% else %}
               <li class="page-item disabled">
