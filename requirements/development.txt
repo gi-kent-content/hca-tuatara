@@ -2,3 +2,4 @@ Django==2.1
 mysqlclient==1.4.4
 pytz==2019.3
 sqlparse==0.3.0
+django-allauth=0.42.0
