@@ -39,6 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +134,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -144,3 +150,5 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.environ["HCAT_MEDIA"]
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = '/'
