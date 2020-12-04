@@ -300,7 +300,7 @@ class Project(models.Model):
     status = models.ForeignKey(ProjectStatus, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="state_reached")
     stars = models.IntegerField(blank=True,validators=[MinValueValidator(1),MaxValueValidator(5)], default=3)
     tags = models.ManyToManyField(Tag, blank=True)
-    git_ticket_url = models.URLField(blank=True, null=True)
+    ticket_link = models.URLField(blank=True, null=True)
     primary_wrangler = models.ForeignKey(Wrangler, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="wrangler1");
     secondary_wrangler = models.ForeignKey(Wrangler, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="secondary_wrangler");
     contacts = models.ManyToManyField(Contributor, blank=True, related_name="projcontacts")
@@ -313,7 +313,7 @@ class Project(models.Model):
     sheet_template = models.FileField(upload_to="uploads/project", blank=True, null=True, default=None)
     sheet_template_date = models.DateField(blank=True, null=True, default=None)
     sheet_from_lab = models.FileField(upload_to="uploads/project", blank=True, null=True, default=None)
-    shared_google_sheet  = models.URLField(blank=True, null=True, default=None)
+    google_sheet_url  = models.URLField(blank=True, null=True, default=None)
     sheet_from_lab_date = models.DateField(blank=True, null=True, default=None)
     back_to_lab = models.FileField(upload_to="uploads/project", blank=True, null=True, default=None)
     back_to_lab_date = models.DateField(blank=True, null=True, default=None)
@@ -321,7 +321,7 @@ class Project(models.Model):
     lab_review_date = models.DateField(blank=True, null=True, default=None)
     sheet_submitted = models.FileField(upload_to="uploads/project", blank=True, null=True, default=None)
     sheet_validated_date = models.DateField(blank=True, null=True, default=None)
-    staging_area = models.CharField('Staging S3 bucket', max_length=255,blank=True, default="")
+    file_bucket = models.CharField('File bucket', max_length=255,blank=True, default="")
     staging_area_date = models.DateField(blank=True, null=True, default=None)
     submit_date = models.DateField(blank=True, null=True, default=None)
     submit_comments = models.CharField(max_length=255, blank=True)
@@ -335,14 +335,14 @@ class Project(models.Model):
     preservation_method = models.ManyToManyField(PreservationMethod, blank=True)
     privacy = models.ForeignKey(Privacy, blank=True, null=True, default=None, on_delete=models.SET_NULL)
     project_source = models.ForeignKey(ProjectSourceType, blank=True, null=True, default=None, on_delete=models.SET_NULL)
-    origin_name = models.CharField(max_length=200, blank=True)
+    source_url = models.CharField(max_length=200, blank=True)
     cdna_library_prep = models.ManyToManyField(CdnaLibraryPrep, blank=True, verbose_name=' cDNA library prep')
     cells_expected = models.IntegerField(blank=True, default=0)
     publications = models.ManyToManyField(Publication, blank=True)
     contributors = models.ManyToManyField(Contributor)
     species = models.ManyToManyField(Species, blank=True)
     grants = models.ManyToManyField("Grant", blank=True, through="grant_funded_projects")
-    wrangler_drive = models.URLField(blank=True)
+    google_drive_url = models.URLField(blank=True)
     urls = models.ManyToManyField(Url, blank=True)
     def __str__(self):
        return self.short_name
