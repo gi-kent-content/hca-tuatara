@@ -114,7 +114,7 @@ class ProjectAdmin(admin.ModelAdmin):
 		('contacts', 'first_contact_date', 'last_contact_date'),
                 ('ticket_link'),
                 ('google_drive_url'),
-		('staging_area', ),
+		('file_bucket', ),
                 ('google_sheet_url'),
 		)}),
 	('Submission steps',  { 'fields': (
