@@ -179,10 +179,10 @@ class Disease(models.Model):
     class Meta:
        verbose_name = 'x disease'
 
-class Consent(models.Model):
-    """ This Concent class is a controlled vocabulary that describes broadly the justification
+class Privacy(models.Model):
+    """ This Privacy class is a controlled vocabulary that describes broadly the justification
     for thinking we have the right to share the data with anyone.  This does not
-    go into or include the specific consent agreement when human subjects are involved.
+    go into or include the specific privacy agreement when human subjects are involved.
     """
     short_name = models.CharField(max_length=50, unique=True)
     description = models.CharField(max_length=255)
@@ -190,7 +190,7 @@ class Consent(models.Model):
     def __str__(self):
         return self.short_name
     class Meta:
-       verbose_name = 'x consent'
+       verbose_name = 'x privacy'
 
 class SampleType(models.Model):
     """ The SampleType is a broad classification of how close to in-vivo the tissue sample is.
@@ -333,7 +333,7 @@ class Project(models.Model):
     disease = models.ManyToManyField(Disease, blank=True)
     sample_type = models.ManyToManyField(SampleType, blank=True)
     preservation_method = models.ManyToManyField(PreservationMethod, blank=True)
-    consent = models.ForeignKey(Consent, blank=True, null=True, default=None, on_delete=models.SET_NULL)
+    privacy = models.ForeignKey(Privacy, blank=True, null=True, default=None, on_delete=models.SET_NULL)
     project_source = models.ForeignKey(ProjectSourceType, blank=True, null=True, default=None, on_delete=models.SET_NULL)
     origin_name = models.CharField(max_length=200, blank=True)
     cdna_library_prep = models.ManyToManyField(CdnaLibraryPrep, blank=True, verbose_name=' cDNA library prep')

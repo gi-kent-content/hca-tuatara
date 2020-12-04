@@ -103,7 +103,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ['species', 'organ', 'disease', 'project_source', 'primary_wrangler', 'status', 'cdna_library_prep', 'tags']
     inlines = [TrackerInline,]
     fieldsets = (
-        ('Overall', { 'fields': (('short_name', 'status'), ('title'), ('labs', 'consent'), ('tags', 'stars'))}), 
+        ('Overall', { 'fields': (('short_name', 'status'), ('title'), ('labs', 'privacy'), ('tags', 'stars'))}),
         ('Biosample',  { 'fields': (('species', 'disease'), ('organ', 'organ_part'), ('sample_type', 'preservation_method'))}),
         ('Assay', { 'fields': ('cdna_library_prep', 'cells_expected')}),
 	('Pubs, people, and pay', { 'fields': ('description', 'publications', 'contributors', 'grants')}),
@@ -156,11 +156,11 @@ class SpeciesAdmin(admin.ModelAdmin):
 
 admin.site.register(Species, SpeciesAdmin)
 
-class ConsentAdmin(admin.ModelAdmin):
+class PrivacyAdmin(admin.ModelAdmin):
     search_fields = ["short_name", "description"]
     list_display = ["short_name", "description"]
 
-admin.site.register(Consent, ConsentAdmin)
+admin.site.register(Privacy, PrivacyAdmin)
 
 class DiseaseAdmin(admin.ModelAdmin):
     search_fields = ["short_name", "description"]
