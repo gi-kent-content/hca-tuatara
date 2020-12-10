@@ -344,14 +344,14 @@ class Project(models.Model):
     grants = models.ManyToManyField("Grant", blank=True, through="grant_funded_projects")
     google_drive_url = models.URLField(blank=True)
     urls = models.ManyToManyField(Url, blank=True)
-    geo_series = models.CharField(max_length=10)
-    dgGap_accession = models.CharField(max_length=50)
-    arrayexpress_accession = models.CharField(max_length=20)
-    ena_accession = models.CharField(max_length=10)
-    sra_accession = models.CharField(max_length=15)
-    ncbi_bioproject_accession = models.CharField(max_length=50)
-    cirm_accession = models.CharField(max_length=20)
-    ega_study_accesion = models.CharField(max_length=20)
+    geo_series = models.CharField(max_length=10, blank=True, null=True, default=None)
+    dgGap_accession = models.CharField(max_length=50, blank=True, null=True, default=None)
+    arrayexpress_accession = models.CharField(max_length=20, blank=True, null=True, default=None)
+    ena_accession = models.CharField(max_length=10, blank=True, null=True, default=None)
+    sra_accession = models.CharField(max_length=15, blank=True, null=True, default=None)
+    ncbi_bioproject_accession = models.CharField(max_length=50, blank=True, null=True, default=None)
+    cirm_accession = models.CharField(max_length=20, blank=True, null=True, default=None)
+    ega_study_accesion = models.CharField(max_length=20, blank=True, null=True, default=None)
 
     def __str__(self):
        return self.short_name
