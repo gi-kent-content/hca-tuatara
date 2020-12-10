@@ -106,7 +106,11 @@ class ProjectAdmin(admin.ModelAdmin):
         ('Overall', { 'fields': (('short_name', 'status'), ('title'), ('labs', 'privacy'), ('tags', 'stars'))}),
         ('Biosample',  { 'fields': (('species', 'disease'), ('organ', 'organ_part'), ('sample_type', 'preservation_method'))}),
         ('Assay', { 'fields': ('cdna_library_prep', 'cells_expected')}),
-	('Pubs, people, and pay', { 'fields': ('description', 'publications', 'contributors', 'grants')}),
+	('Pubs, people, and pay', { 'fields': ('description', 'publications', 'contributors', 'grants',
+                                           ('geo_series', 'sra_accession'), ('dgGap_accession', 'arrayexpress_accession',
+                                                                             'ena_accession'), ('ncbi_bioproject_accession',
+                                                                                                'cirm_accession',
+                                                                                                'ega_study_accesion'))}),
 	('Wrangling',  { 'fields': (
 		('primary_wrangler', 'secondary_wrangler'), 
 		('wrangling_status', 'comments'),
