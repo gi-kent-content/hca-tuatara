@@ -23,7 +23,7 @@
                 <tr>
                     <td>
                         <a href="{% url 'hcat:project_detail' proj.short_name|urlencode:'' %}"
-                           data-toggle="popover" data-title="{{ proj.title }}" data-selector="true"
+                           data-toggle="popover" title="{{ proj.title }}"
                                 data-content="{{ proj.description|truncatechars:300 }}">
                             {{ proj.short_name|truncatechars:50 }}</a>
                     </td>
