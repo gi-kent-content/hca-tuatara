@@ -103,19 +103,22 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ['species', 'organ', 'disease', 'project_source', 'primary_wrangler', 'status', 'cdna_library_prep', 'tags']
     inlines = [TrackerInline,]
     fieldsets = (
-        ('Overall', { 'fields': (('short_name', 'status'), ('title'), ('labs', 'consent'), ('tags', 'stars'))}), 
+        ('Overall', { 'fields': (('short_name', 'status'), ('title'), ('labs', 'privacy'), ('tags', 'stars'))}),
         ('Biosample',  { 'fields': (('species', 'disease'), ('organ', 'organ_part'), ('sample_type', 'preservation_method'))}),
         ('Assay', { 'fields': ('cdna_library_prep', 'cells_expected')}),
-	('Pubs, people, and pay', { 'fields': ('description', 'publications', 'contributors', 'grants')}),
+	('Pubs, people, and pay', { 'fields': ('description', 'publications', 'contributors', 'grants',
+                                           ('geo_series', 'sra_accession'), ('dbGap_accession', 'array_express_accession'),
+                                           ('ena_accession', 'ncbi_bioproject_accession'),
+                                           ('cirm_accession', 'ega_study_accesion'))}),
 	('Wrangling',  { 'fields': (
 		('primary_wrangler', 'secondary_wrangler'), 
 		('wrangling_status', 'comments'),
-		('project_source', 'origin_name',),
+		('project_source', 'source_url',),
 		('contacts', 'first_contact_date', 'last_contact_date'),
-                ('git_ticket_url'),
-                ('wrangler_drive'),
-		('staging_area', ),
-                ('shared_google_sheet'),
+                ('ticket_link'),
+                ('google_drive_url'),
+		('file_bucket', ),
+                ('google_sheet_url'),
 		)}),
 	('Submission steps',  { 'fields': (
 		('questionnaire_date', 'questionnaire_comments'),
@@ -130,7 +133,7 @@ class ProjectAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(ProjectAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['title'].widget.attrs['style'] = 'width: 60em;'
-        form.base_fields['staging_area'].widget.attrs['style'] = 'width: 50em;'
+        form.base_fields['file_bucket'].widget.attrs['style'] = 'width: 50em;'
         return form
 
 
@@ -156,11 +159,11 @@ class SpeciesAdmin(admin.ModelAdmin):
 
 admin.site.register(Species, SpeciesAdmin)
 
-class ConsentAdmin(admin.ModelAdmin):
+class PrivacyAdmin(admin.ModelAdmin):
     search_fields = ["short_name", "description"]
     list_display = ["short_name", "description"]
 
-admin.site.register(Consent, ConsentAdmin)
+admin.site.register(Privacy, PrivacyAdmin)
 
 class DiseaseAdmin(admin.ModelAdmin):
     search_fields = ["short_name", "description"]
