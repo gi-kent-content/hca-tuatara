@@ -13,7 +13,7 @@ SESSION_COOKIE_SECURE = True
 STATIC_ROOT="/home/tuatara/static"
 
 # SECRET_KEY is set in base.py
-if ! "HCAT_SECRET_KEY" in os.environ:
+if "HCAT_SECRET_KEY" not in os.environ:
     raise ValueError("HCAT_SECRET_KEY required env variable missing from production enviroment.")
 
 #INSTALLED_APPS += [
