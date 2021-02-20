@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import re
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # __file__ represents this file itself.
@@ -21,7 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# this is the hardwired key for non-production
 SECRET_KEY = '=yztu+7vgkkr%f1uy(fnk%zl=!jx*tg$v6ekzsp40a%2m7_d3!'
+
+if "HCAT_SECRET_KEY" in os.environ:
+    SECRET_KEY = os.environ["HCAT_SECRET_KEY"]  # this env var only used by production
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -100,8 +105,6 @@ DATABASES = {
     }
 }
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -152,3 +155,16 @@ MEDIA_ROOT = os.environ["HCAT_MEDIA"]
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
+
+# Hide Sensitive Secret Environment Variables.
+# We do not want them to leak out if debug=true.
+# Django should be doing this for us automatically, but it does not.
+# runserver runs and forks and runs again. We only want to change env var for the main run process.
+if os.environ.get('RUN_MAIN') == 'true':  
+    HIDDEN_SETTINGS = re.compile('API|TOKEN|KEY|SECRET|PASS|SIGNATURE', flags=re.IGNORECASE)
+    CLEANSED_SUBSTITUTE = '********************'
+    for key in os.environ:
+        if key.isupper():
+            if HIDDEN_SETTINGS.search(key):
+                os.environ[key] = CLEANSED_SUBSTITUTE
+
