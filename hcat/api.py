@@ -129,7 +129,7 @@ def serializable_project(p):
         preps.append(str(t))
     return {
         "short_name":p.short_name, "stars":p.stars, "status": str(p.status), 
-        "origin_name": p.origin_name, "title":p.title, 
+        "source_url": p.source_url, "title":p.title,
         "primary_wrangler": str(p.primary_wrangler), "secondary_wrangler": str(p.secondary_wrangler), "contacts":contacts,
         "species":species, "organs":organs, "sample_type":sample_type,
         "cdna_library_prep": preps, "contributors":contributors,
