@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+{% extends "hcat/base_site.html" %}
+{% block body %}
+    <div class="container">
+        <div class="jumbotron mt-5">
+            <h2 class="mb-4"><strong><u>Submit New A Project Below:</u></strong></h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong>Title (Required):</strong></label>
+                        <div class="controls">{{form.title}}</div>
+                        {{ form.title.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>Short Name (Required):</strong></label>
+                        <div class="controls" name="short_name">{{form.short_name}}</div>
+                        {{ form.short_name.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>Status:</strong></label>
+                        <div class="controls" >{{form.status}}</div>
+                        {{ form.status.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#tagModal"><i class="bi bi-plus-circle"></i></a> Tags:</strong></label>
+                        <div class="controls">{{form.tags}}</div>
+                        {{ form.tags.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong>Description (Required):</strong></label>
+                        <div class="controls">{{form.description}}</div>
+                        {{ form.description.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong>Project Source:</strong></label>
+                        <div class="controls">{{form.project_source}}</div>
+                        {{ form.project_source.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>Privacy:</strong></label>
+                        <div class="controls">{{form.privacy}}</div>
+                        {{ form.privacy.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong>Geo Series:</strong></label>
+                        <div class="controls">{{form.geo_series}}</div>
+                        {{ form.geo_series.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>dbGap Accession:</strong></label>
+                        <div class="controls">{{form.dbGap_accession}}</div>
+                        {{ form.dbGap_accession.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>Array Express Accession:</strong></label>
+                        <div class="controls">{{form.array_express_accession}}</div>
+                        {{ form.array_express_accession.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>ENA Accession:</strong></label>
+                        <div class="controls">{{form.ena_accession}}</div>
+                        {{ form.ena_accession.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong>SRA Accession:</strong></label>
+                        <div class="controls">{{form.sra_accession}}</div>
+                        {{ form.sra_accession.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>NCBI BioProject Accession:</strong></label>
+                        <div class="controls">{{form.ncbi_bioproject_accession}}</div>
+                        {{ form.ncbi_bioproject_accession.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>CIRM Accession:</strong></label>
+                        <div class="controls">{{form.cirm_accession}}</div>
+                        {{ form.cirm_accession.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>EGA Study Accession:</strong></label>
+                        <div class="controls">{{form.ega_study_accesion}}</div>
+                        {{ form.ega_study_accesion.errors }}
+                    </div>
+                </div>
+                <br>
+                <h3>Publications and Contributors</h3>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#pubModal"><i class="bi bi-plus-circle"></i></a> Publications:</strong></label>
+                        <div class="controls">{{form.publications}}</div>
+                        {{ form.publications.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#labModal"><i class="bi bi-plus-circle"></i></a> Labs:</strong></label>
+                        <div class="controls">{{form.labs}}</div>
+                        {{ form.labs.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#contribModal"><i class="bi bi-plus-circle"></i></a> Contributors (Required):</strong></label>
+                        <div class="controls">{{form.contributors}}</div>
+                        {{ form.contributors.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#urlModal"><i class="bi bi-plus-circle"></i></a> URLs:</strong></label>
+                        <div class="controls">{{form.urls}}</div>
+                        {{ form.urls.errors }}
+                    </div>
+                </div>
+                <br>
+                <h3>Assay</h3>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#LibprepModal"><i class="bi bi-plus-circle"></i></a> Library Prep:</strong></label>
+                        <div class="controls">{{form.cdna_library_prep}}</div>
+                        {{ form.cdna_library_prep.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>Cells Expected:</strong></label>
+                        <div class="controls">{{form.cells_expected}}</div>
+                        {{ form.cells_expected.errors }}
+                    </div>
+                </div>
+                <br>
+                <h3>Biomaterial</h3>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong>Species:</strong></label>
+                        <div class="controls">{{form.species}}</div>
+                        {{ form.species.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#diseaseModal"><i class="bi bi-plus-circle"></i></a> Disease:</strong></label>
+                        <div class="controls">{{form.disease}}</div>
+                        {{ form.disease.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>Sample Type:</strong></label>
+                        <div class="controls">{{form.sample_type}}</div>
+                        {{ form.sample_type.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#organModal"><i class="bi bi-plus-circle"></i></a> Organ:</strong></label>
+                        <div class="controls">{{form.organ}}</div>
+                        {{ form.organ.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong><a href="#" data-toggle="modal" data-target="#opartModal"><i class="bi bi-plus-circle"></i></a> Organ Part:</strong></label>
+                        <div class="controls">{{form.organ_part}}</div>
+                        {{ form.organ_part.errors }}
+                    </div>
+                </div>
+                <br>
+                <h3>Wrangling</h3>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong>Primary Wrangler:</strong></label>
+                        <div class="controls">{{form.primary_wrangler}}</div>
+                        {{ form.primary_wrangler.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>Secondary Wrangler:</strong></label>
+                        <div class="controls">{{form.secondary_wrangler}}</div>
+                        {{ form.secondary_wrangler.errors }}
+                    </div>
+                    <div class="col">
+                        <label class="control-label"><strong>Wrangling Status:</strong></label>
+                        <div class="controls">{{form.wrangling_status}}</div>
+                        {{ form.wrangling_status.errors }}
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <label class="control-label"><strong>Comment:</strong></label>
+                        <div class="controls">{{form.comments}}</div>
+                        {{ form.comments.errors }}
+                    </div>
+                </div>
+                <br>
+                <input type="submit" class="btn btn-primary" value="Submit" name="fullsubmit">
+            </form>
+        </div>
+    </div>
+
+<div class="modal fade" id="tagModal" tabindex="-1" role="dialog" aria-labelledby="tagModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tagModalLabel">Tag Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ tag_add.non_field_errors }}
+                    <label class="control-label"><strong>Tag:</strong></label>
+                    <div class="controls" >{{tag_add.tag}}</div>
+                    {{ tag_add.tag.errors }}
+                    <br>
+                    <label class="control-label"><strong>Tag Description:</strong></label>
+                    <div class="controls" >{{tag_add.description}}</div>
+                    {{ tag_add.description.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="tagSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="pubModal" tabindex="-1" role="dialog" aria-labelledby="pubModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pubModalLabel">Publication Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ pub_add.non_field_errors }}
+                    <label class="control-label"><strong>Short Name:</strong></label>
+                    <div class="controls" >{{pub_add.short_name}}</div>
+                    {{ pub_add.short_name.errors }}
+                    <br>
+                    <label class="control-label"><strong>Title:</strong></label>
+                    <div class="controls" >{{pub_add.title}}</div>
+                    {{ pub_add.title.errors }}
+                    <br>
+                    <label class="control-label"><strong>PMID:</strong></label>
+                    <div class="controls" >{{pub_add.pmid}}</div>
+                    {{ pub_add.pmid.errors }}
+                    <br>
+                    <label class="control-label"><strong>DOI:</strong></label>
+                    <div class="controls" >{{pub_add.doi}}</div>
+                    {{ pub_add.doi.errors }}
+                    <br>
+                    <label class="control-label"><strong>Comments:</strong></label>
+                    <div class="controls" >{{pub_add.comments}}</div>
+                    {{ pub_add.comments.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="pubSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="labModal" tabindex="-1" role="dialog" aria-labelledby="labModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="labModalLabel">Lab Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ lab_add.non_field_errors }}
+                    <label class="control-label"><strong>Short Name:</strong></label>
+                    <div class="controls" >{{lab_add.short_name}}</div>
+                    {{ lab_add.short_name.errors }}
+                    <br>
+                    <label class="control-label"><strong>Institution:</strong></label>
+                    <div class="controls" >{{lab_add.institution}}</div>
+                    {{ lab_add.institution.errors }}
+                    <br>
+                    <label class="control-label"><strong>PI:</strong></label>
+                    <div class="controls" >{{lab_add.pi}}</div>
+                    {{ lab_add.pi.errors }}
+                    <br>
+                    <label class="control-label"><strong>Comments:</strong></label>
+                    <div class="controls" >{{lab_add.comments}}</div>
+                    {{ lab_add.comments.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="labSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="contribModal" tabindex="-1" role="dialog" aria-labelledby="contribModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contribModalLabel">Contributor Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ contrib_add.non_field_errors }}
+                    <label class="control-label"><strong>Name:</strong></label>
+                    <div class="controls" >{{contrib_add.name}}</div>
+                    {{ contrib_add.name.errors }}
+                    <br>
+                    <label class="control-label"><strong>Email:</strong></label>
+                    <div class="controls" >{{contrib_add.email}}</div>
+                    {{ contrib_add.email.errors }}
+                    <br>
+                    <label class="control-label"><strong>Phone:</strong></label>
+                    <div class="controls" >{{contrib_add.phone}}</div>
+                    {{ contrib_add.phone.errors }}
+                    <br>
+                    <label class="control-label"><strong>Address:</strong></label>
+                    <div class="controls" >{{contrib_add.address}}</div>
+                    {{ contrib_add.address.errors }}
+                    <br>
+                    <label class="control-label"><strong>Institute:</strong></label>
+                    <div class="controls" >{{contrib_add.institute}}</div>
+                    {{ contrib_add.institute.errors }}
+                    <br>
+                    <label class="control-label"><strong>City:</strong></label>
+                    <div class="controls" >{{contrib_add.city}}</div>
+                    {{ contrib_add.city.errors }}
+                    <br>
+                    <label class="control-label"><strong>Country:</strong></label>
+                    <div class="controls" >{{contrib_add.country}}</div>
+                    {{ contrib_add.ccountry.errors }}
+                    <br>
+                    <label class="control-label"><strong>Zip Code:</strong></label>
+                    <div class="controls" >{{contrib_add.zip_postal_code}}</div>
+                    {{ contrib_add.zip_postal_code.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="contribSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="urlModal" tabindex="-1" role="dialog" aria-labelledby="urlModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="urlModalLabel">URL Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ url_add.non_field_errors }}
+                    <label class="control-label"><strong>Short Name:</strong></label>
+                    <div class="controls" >{{url_add.short_name}}</div>
+                    {{ url_add.short_name.errors }}
+                    <br>
+                    <label class="control-label"><strong>Path:</strong></label>
+                    <div class="controls" >{{url_add.path}}</div>
+                    {{ url_add.path.errors }}
+                    <br>
+                    <label class="control-label"><strong>Description:</strong></label>
+                    <div class="controls" >{{url_add.description}}</div>
+                    {{ url_add.description.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="urlSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="LibprepModal" tabindex="-1" role="dialog" aria-labelledby="LibprepModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LibprepModalLabel">Library Prep Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ lib_prep_add.non_field_errors }}
+                    <label class="control-label"><strong>Short Name:</strong></label>
+                    <div class="controls" >{{lib_prep_add.short_name}}</div>
+                    {{ lib_prep_add.short_name.errors }}
+                    <br>
+                    <label class="control-label"><strong>Description:</strong></label>
+                    <div class="controls" >{{lib_prep_add.description}}</div>
+                    {{ lib_prep_add.description.errors }}
+                    <br>
+                    <label class="control-label"><strong>Comments:</strong></label>
+                    <div class="controls" >{{lib_prep_add.comments}}</div>
+                    {{ lib_prep_add.comments.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="LibprepSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="diseaseModal" tabindex="-1" role="dialog" aria-labelledby="diseaseModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="diseaseModalLabel">Disease Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ disease_add.non_field_errors }}
+                    <label class="control-label"><strong>Short Name:</strong></label>
+                    <div class="controls" >{{disease_add.short_name}}</div>
+                    {{ disease_add.short_name.errors }}
+                    <br>
+                    <label class="control-label"><strong>Description:</strong></label>
+                    <div class="controls" >{{disease_add.description}}</div>
+                    {{ disease_add.description.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="diseaseSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="organModal" tabindex="-1" role="dialog" aria-labelledby="organModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="organModalLabel">Organ Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ organ_add.non_field_errors }}
+                    <label class="control-label"><strong>Short Name:</strong></label>
+                    <div class="controls" >{{organ_add.short_name}}</div>
+                    {{ organ_add.short_name.errors }}
+                    <br>
+                    <label class="control-label"><strong>Description:</strong></label>
+                    <div class="controls" >{{organ_add.description}}</div>
+                    {{ organ_add.description.errors }}
+                    <br>
+                    <label class="control-label"><strong>Ontology ID:</strong></label>
+                    <div class="controls" >{{organ_add.ontology_id}}</div>
+                    {{ organ_add.ontology_id.errors }}
+                    <br>
+                    <label class="control-label"><strong>Ontology Label:</strong></label>
+                    <div class="controls" >{{organ_add.ontology_label}}</div>
+                    {{ organ_add.ontology_label.errors }}
+                    <br>
+                    <label class="control-label"><strong>Comments:</strong></label>
+                    <div class="controls" >{{organ_add.comments}}</div>
+                    {{ organ_add.comments.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="organSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="opartModal" tabindex="-1" role="dialog" aria-labelledby="opartModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="opartModalLabel">Organ Part Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ opart_add.non_field_errors }}
+                    <label class="control-label"><strong>Short Name:</strong></label>
+                    <div class="controls" >{{opart_add.short_name}}</div>
+                    {{ opart_add.short_name.errors }}
+                    <br>
+                    <label class="control-label"><strong>Description:</strong></label>
+                    <div class="controls" >{{opart_add.description}}</div>
+                    {{ opart_add.description.errors }}
+                    <br>
+                    <label class="control-label"><strong>Ontology ID:</strong></label>
+                    <div class="controls" >{{opart_add.ontology_id}}</div>
+                    {{ opart_add.ontology_id.errors }}
+                    <br>
+                    <label class="control-label"><strong>Ontology Label:</strong></label>
+                    <div class="controls" >{{opart_add.ontology_label}}</div>
+                    {{ opart_add.ontology_label.errors }}
+                    <br>
+                    <label class="control-label"><strong>Comments:</strong></label>
+                    <div class="controls" >{{opart_add.comments}}</div>
+                    {{ opart_add.comments.errors }}
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="opartSubmit" value="Save Changes">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#id_np-status').select2({
+            placeholder: 'Select One',
+            width: '85%',
+        });
+        $('#id_np-tags').select2();
+        $('#id_np-project_source').select2({
+            placeholder: 'Select One',
+        });
+        $('#id_np-privacy').select2({
+            placeholder: 'Select One',
+        });
+        $('#id_np-primary_wrangler').select2({
+            placeholder: 'Select One',
+        });
+        $('#id_np-secondary_wrangler').select2({
+            placeholder: 'Select One',
+        });
+        $('#id_np-wrangling_status').select2({
+            placeholder: 'Select One',
+        });
+        $('#id_np-publications').select2({
+            width: '85%',
+        });
+        $('#id_np-labs').select2(
+            {width: '85%',}
+        );
+        $('#id_np-contributors').select2(
+            {width: '85%',}
+        );
+        $('#id_np-urls').select2(
+            {width: '85%',}
+        );
+        $('#id_np-cdna_library_prep').select2(
+            {width: '85%',}
+        );
+        $('#id_np-species').select2(
+            {width: '85%',}
+        );
+        $('#id_np-disease').select2(
+            {width: '85%',}
+        );
+        $('#id_np-sample_type').select2(
+            {width: '85%',}
+        );
+        $('#id_np-organ').select2(
+            {width: '85%',}
+        );
+        $('#id_np-organ_part').select2(
+            {width: '85%',}
+        );
+    });
+</script>
+{% endblock body %}
