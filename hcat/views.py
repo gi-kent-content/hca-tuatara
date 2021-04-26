@@ -1,13 +1,14 @@
 from django.template import loader
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from django.views import generic
 from django.http import HttpResponse, HttpResponseRedirect
 from urllib.parse import unquote
+from django.contrib.auth.decorators import login_required
 from .models import Project, SuggestedProjects
 from .suggestion_form import ProjectSuggestion
-from .new_project_form import NewProject, AddTag, AddOrgan, AddOrganPart, AddDisease, AddLab, AddPub, AddUrl, AddContributors, AddLibPrep
+from .new_project_sub_form import NewProject, AddTag, AddOrgan, AddOrganPart, AddDisease, AddLab, AddPub, AddUrl, AddContributors, AddLibPrep
 import json
 
 from .models import *
@@ -173,7 +174,7 @@ def new_project(request):
                 url_form.save()
             else:
                 print('Error in form')
-    return render(request, 'hcat_will/new_project_sub.html', {'form': form, 'tag_add': tag_form, 'organ_add': organ_form,
+    return render(request, 'hcat/new_project.html', {'form': form, 'tag_add': tag_form, 'organ_add': organ_form,
                                                               'opart_add': opart_form, 'disease_add': disease_form,
                                                               'lib_prep_add': lib_prep_form, 'lab_add': lab_form,
                                                               'pub_add': pub_form, 'contrib_add': contrib_form,

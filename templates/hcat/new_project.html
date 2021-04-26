@@ -3,7 +3,8 @@
 {% block body %}
     <div class="container">
         <div class="jumbotron mt-5">
-            <h2 class="mb-4"><strong><u>Submit New A Project Below:</u></strong></h2>
+          <h2><strong><u>Submit New A Project Below:</u></strong></h2>
+	  <h6 class="mb-4">Please add new values before filling out form</h6>
             <form method="post">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
@@ -29,6 +30,7 @@
                         {{ form.tags.errors }}
                     </div>
                 </div>
+		<br>
                 <div class="row">
                     <div class="col">
                         <label class="control-label"><strong>Description (Required):</strong></label>
@@ -48,6 +50,7 @@
                         {{ form.privacy.errors }}
                     </div>
                 </div>
+		<br>
                 <div class="row">
                     <div class="col">
                         <label class="control-label"><strong>Geo Series:</strong></label>
@@ -70,6 +73,7 @@
                         {{ form.ena_accession.errors }}
                     </div>
                 </div>
+		<br>
                 <div class="row">
                     <div class="col">
                         <label class="control-label"><strong>SRA Accession:</strong></label>
@@ -520,7 +524,7 @@
     $(document).ready(function() {
         $('#id_np-status').select2({
             placeholder: 'Select One',
-            width: '85%',
+            width: '90%',
         });
         $('#id_np-tags').select2();
         $('#id_np-project_source').select2({
@@ -536,7 +540,8 @@
             placeholder: 'Select One',
         });
         $('#id_np-wrangling_status').select2({
-            placeholder: 'Select One',
+    placeholder: 'Select One',
+    width: '85%',
         });
         $('#id_np-publications').select2({
             width: '85%',
