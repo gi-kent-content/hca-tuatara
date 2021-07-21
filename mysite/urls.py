@@ -25,6 +25,7 @@ urlpatterns = [
     path('hcat/', include('hcat.urls')),
     path('api/', include('hcat.api_urls')),
     path('suggest/', views.project_suggestion, name='suggest'),
+    path('new_project', views.new_project, name='new_proj'),
     path('', include('hcat.index_urls')),
     path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
